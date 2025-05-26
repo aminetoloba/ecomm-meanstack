@@ -1,0 +1,64 @@
+<div class="py-10 px-20">
+    <h1 class="text-3xl font-bold mb-6">Mes Commandes</h1>
+    <div class="rounded-lg p-4 space-y-4">
+        <!-- Article du panier -->
+         @for (order of orders; track $index) {
+        <div class="flex justify-between">
+            <div class="w-6/12">
+                <h6>N° {{order._id}}</h6>
+                <span>Date: </span><span>{{order.date | date:'mediumDate'}}</span>
+                <h6>Adresse du client</h6>
+                <p>{{ order.address.address1 }}</p>
+                <p>{{ order.address.address2 }}</p>
+                <p>{{ order.address.city }}</p>
+                <p>{{ order.address.pincode }}</p>
+            </div>
+            <div class="w-6/12">
+                <mat-button-toggle-group [value]="order.status" name="status" aria-label="Font Style" (change)="statusChanged($event,order)">
+                    <mat-button-toggle value="Dispatched">Expédié</mat-button-toggle>
+                    <mat-button-toggle value="Shipped">En Cours</mat-button-toggle>
+                    <mat-button-toggle value="Delivered">Livré</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+            <div class="mb-10 shadow-lg">
+            @for (item of order.items; track $index) {
+            <div class="flex items-center justify-between border-b pb-4">
+                  <div class="flex items-center gap-4">
+                    <img [src]="item.product.images[0]" class="w-20 h-20 object-cover rounded" />
+                    <div>
+                      <h2 class="!text-xl font-semibold">{{item.product.name}}</h2>
+                      <p class="text-gray-400 !text-lg"><s>$ {{item.product.price}}</s></p>
+                      <p class="!text-xs text-orange-300">{{item.product.discount}}%OFF</p>
+                      <p class="text-green-500 font-bold !text-lg">
+                        $ {{ sellingPrice(item.product) }}
+                      </p>
+                      <p>Montant: $ {{ sellingPrice(item.product)*item.quantity }}</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                      <div class="flex items-center">
+                      <p class="text-gray-500 mr-4">Quantité:</p>
+                      <p class="text-gray-500 mx-2">{{item.quantity}}</p>
+                      </div>
+                    <!--<button class="text-red-500 hover:underline">Supprimer</button> -->
+                  </div>
+            </div>
+            }
+            </div>
+         }
+        <!-- Répéter pour chaque produit -->
+    
+        <!-- Total + bouton commander
+        <div class="text-right pt-4 flex justify-between items-center gap-4 text-xl font-bold"
+        (click)="checkout()">
+          <div class="flex items-center gap-2">
+              <span>Total :</span>
+              <span class="text-green-600">$ {{ totalAmmount }}</span>
+          </div>          
+          <button class="mt-2 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            Commander
+          </button>
+        </div> -->
+    </div>
+</div>

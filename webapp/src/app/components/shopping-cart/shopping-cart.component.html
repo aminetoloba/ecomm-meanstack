@@ -1,0 +1,112 @@
+<div class="max-w-4xl mx-auto p-4">
+  @if (orderStep==0){
+    <h1 class="text-2xl font-bold mb-4">Mon Panier</h1>
+    <div class="bg-white shadow rounded-lg p-4 space-y-4">
+      <!-- Article du panier -->
+      @for (item of cartItems; track $index) {
+      <div class="flex items-center justify-between border-b pb-4">
+        <div class="flex items-center gap-4">
+          <img [src]="item.product.images[0]" class="w-20 h-20 object-cover rounded" />
+          <div>
+            <h2 class="!text-xl font-semibold">{{item.product.name}}</h2>
+            <p class="text-gray-400 !text-lg"><s>$ {{item.product.price}}</s></p>
+            <p class="!text-xs text-orange-300">{{item.product.discount}}%OFF</p>
+            <p class="text-green-500 font-bold !text-lg">
+              $ {{ sellingPrice(item.product) }}
+            </p>
+            <p>Montant: $ {{ sellingPrice(item.product)*item.quantity }}</p>
+          </div>
+        </div>
+        <div class="text-right">
+            <div class="flex items-center">
+            <p class="text-gray-500 mr-4">Quantité:</p>
+            <p (click)="addToCart(item.product._id!,-1)" class="text-lg bg-gray-400 rounded-sm px-3 py-2 shadow cursor-pointer">-</p>
+            <p class="text-gray-500 mx-2">{{item.quantity}}</p>
+            <p (click)="addToCart(item.product._id!,1)" class="text-lg bg-gray-400 rounded-sm px-3 py-2 shadow cursor-pointer">+</p>
+            </div>
+          <!--<button class="text-red-500 hover:underline">Supprimer</button> -->
+        </div>
+      </div>
+      }
+      <!-- Répéter pour chaque produit -->
+  
+      <!-- Total + bouton commander -->
+      <div class="text-right pt-4 flex justify-between items-center gap-4 text-xl font-bold"
+      (click)="checkout()">
+        <div class="flex items-center gap-2">
+            <span>Total :</span>
+            <span class="text-green-600">$ {{ totalAmmount }}</span>
+        </div>          
+        <button class="mt-2 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+          Commander
+        </button>
+      </div>
+    </div>
+  }@else if (orderStep==1) {
+    <div class="flex flex-col items-center justify-center min-h-screen space-y-6">
+      <h1 class="text-3xl font-bold text-center">Votre Adresse</h1>
+    
+      <form class="bg-white p-8 rounded shadow-md w-full max-w-sm"
+            [formGroup]="addressForm">
+    
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2" for="name">Adresse 1</label>
+          <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                 type="text" 
+                 formControlName="address1"
+                 matInput 
+                 placeholder="Adresse 1" />
+        </div>
+    
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2" for="name">Adresse 2</label>
+          <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                 type="text" 
+                 formControlName="address2"
+                 matInput 
+                 placeholder="Adresse 2" />
+        </div>
+    
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2" for="name">City</label>
+          <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                 type="text" 
+                 formControlName="city"
+                 matInput 
+                 placeholder="Ville" />
+        </div>
+    
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2" for="name">Pincode</label>
+          <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                 type="text" 
+                 formControlName="pincode"
+                 matInput 
+                 placeholder="Votre Code PIN" />
+        </div>
+    
+        <button type="submit"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+                (click)="addAddress()">
+          Continuer
+        </button>
+      </form>
+    </div>
+    
+  }@else if (orderStep == 2){
+    <h1 class="text-3xl font-bold text-center mb-8">Sélectionnez le mode de paiement</h1>
+    <div class="p-30 shadow">
+      <mat-radio-group [(ngModel)]="paymentType">
+        <mat-radio-button value="cash">Cash</mat-radio-button>
+        <mat-radio-button value="card" [disabled]="true">Card</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200 mt-20"
+      (click)="completeOrder()"
+      >
+        Continuer
+    </button>
+  }
+  </div>
+  

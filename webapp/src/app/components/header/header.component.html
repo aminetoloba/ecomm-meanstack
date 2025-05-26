@@ -1,0 +1,60 @@
+<header class="ecommerce-header">
+    <!-- Ligne 1 : Logo + Barre de recherche + Profil -->
+    <div class="top-bar">
+      <div class="logo cursor-pointer" routerLink="/">
+        <span>E-Shop</span>
+      </div>
+      @if(authService.isLoggedIn){
+      <input 
+      type="text" 
+      class="search-input" 
+      placeholder="Rechercher des produits..."
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="onSearch($event)"> }
+      <div class="profile flex gap-2 items-center">
+      @if (authService.isAdmin) {
+      <a routerLink="/admin" class="profile-link cursor-pointer ml-2">{{authService.userName}}</a>
+      }
+      @if(authService.isLoggedIn){
+      @if(!authService.isAdmin){
+      <a routerLink="/profile" class="profile-link cursor-pointer ml-2">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+      <a routerLink="/wishlists" class="profile-link cursor-pointer ml-2">
+        <mat-icon class="text-red-500">favorite</mat-icon>
+      </a>
+      <a routerLink="/cart" class="profile-link cursor-pointer ml-2">
+        <mat-icon class="text-white-500">shopping_cart</mat-icon>
+      </a>
+      <a routerLink="/orders" class="profile-link cursor-pointer ml-2">
+        <mat-icon>receipt_long</mat-icon>
+      </a>
+      }
+      <a href="/profil" class="profile-link cursor-pointer ml-2 hover:text-red-400 transition cursor-pointer flex items-center gap-4" (click)="logout()">
+        <mat-icon class="text-white-500">logout</mat-icon>
+        Logout
+      </a>
+      }@else{
+      <a class="profile-link cursor-pointer ml-2 hover:text-green-400 transition cursor-pointer flex items-center gap-4" (click)="login()">
+        <mat-icon class="text-white-500">login</mat-icon>
+        Login
+      </a>
+      <a class="profile-link cursor-pointer ml-2 hover:text-blue-400 transition cursor-pointer flex items-center gap-4" (click)="register()">
+        <mat-icon class="text-white-500">person_add</mat-icon>
+        Register
+      </a>
+      }
+      </div>
+    </div>
+    <!-- Ligne 2 : Menu des catégories -->
+    <nav class="category-menu cursor-pointer" *ngIf="authService.isLoggedIn">
+      <div *ngIf="categoryList.length === 0">Aucune catégorie trouvée.</div>
+      <ul>
+        <li *ngFor="let category of categoryList" (click)="searchCategory(category._id!)">
+          <a>{{ category.name }}</a>
+        </li>
+      </ul>
+    </nav>    
+
+</header>
+  

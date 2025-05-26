@@ -1,0 +1,31 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <form class="bg-white p-8 rounded shadow-md w-full max-w-sm"
+    [formGroup]="loginForm">
+      <h2 class="text-2xl font-bold mb-6 text-center">Se Connecter</h2>
+  
+      <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="email">Email</label>
+        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        type="email" 
+        formControlName="email"
+        matInput 
+        placeholder="exemple@email.com" />
+      </div>
+  
+      <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2" for="password">Mot de passe</label>
+        <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        type="password" 
+        formControlName="password"
+        matInput 
+        placeholder="••••••••" />
+      </div>
+  
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+      (click)="login()"
+      [disabled]="loginForm.invalid">
+        Se Connecter
+      </button>
+    </form>
+  </div>
+  

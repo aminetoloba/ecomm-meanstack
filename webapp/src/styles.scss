@@ -1,0 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel' as owlCarousel;
+@use 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default' as owlTheme;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

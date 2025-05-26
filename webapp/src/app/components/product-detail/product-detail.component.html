@@ -1,0 +1,108 @@
+<div class="max-w-6xl mx-auto p-6">
+    <!-- Galerie + Infos principales -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Galerie d’images -->
+      <div class="w-full md:w-72 mx-auto">
+       <!-- <img [src]="mainImage" class="w-full h-auto"> -->
+        <div class="flex mt-4 gap-2">
+          @for (url of product.images; track $index){
+            <img [src]="url" class="w-full h-auto mb-2" (click)="changeImage(url)">
+          }
+        </div>
+      </div>
+      <!-- Description courte + détails -->
+      <div class="p-4">
+        <div class="w-6/12">
+        <h1 class="text-3xl font-bold mb-4">{{product.name}}</h1>
+        <p class="text-gray-600 mb-4 text-lg">{{product.shortDescription}}</p>
+        </div>
+        <div class="flex gap-8">
+        <p class="text-2xl font-semibold text-red-600 mb-2 font-bold"><s>{{product.price}} $</s></p>
+        <p class="text-2xl font-semibold text-green-600 mb-2">{{sellingPrice}} $</p>
+        </div>
+        <p class="text-sm text-orange-500 mb-4 font-bold">{{product.discount}} %OFF</p>
+        <p class="text-sm text-gray-500 mb-4">En stock</p>
+        <div class="flex gap-8 flex-wrap">
+          <button
+            mat-raised-button
+            color="accent"
+            class="flex items-center gap-2 min-w-fit px-4"
+            (click)="addToWishList(product)"
+          >
+            @if(isInWishlist(product)){
+              <ng-container>
+                <span class="flex items-center gap-2 whitespace-nowrap">
+                  <mat-icon class="text-red-500">favorite</mat-icon>
+                  Remove from Wishlist
+                </span>
+              </ng-container>
+            } @else {
+              <ng-container>
+                <span class="flex items-center gap-2 whitespace-nowrap">
+                  <mat-icon class="text-red-500">favorite_border</mat-icon>
+                  Add To Wishlist
+                </span>
+              </ng-container>
+            }
+          </button>
+          @if (!isProductInCart(product._id!)){
+          <button
+            mat-raised-button
+            color="primary"
+            class="shadow min-w-fit px-4 whitespace-nowrap"
+            (click)="addToCart(product)"
+          >
+          <mat-icon>add_shopping_cart</mat-icon> Ajouter au panier
+          </button>
+        }@else {
+          <button
+            mat-raised-button
+            color="primary"
+            class="shadow min-w-fit px-4 whitespace-nowrap"
+            (click)="addToCart(product)"
+          >
+          <mat-icon>remove_shopping_cart</mat-icon> Retirer du panier
+          </button>
+        }
+        </div>        
+      </div>
+    </div>
+  
+    <!-- Détails techniques du produit -->
+    <div class="mt-12">
+      <h2 class="text-2xl font-bold mb-4 text-lg">Détails du produit</h2>
+      <pre>{{product.description}}</pre>
+    </div>
+
+    @if (similarProducts.length){
+    <div class="my-4">
+        <h4 class="text-2xl font-bold">Similar Products</h4>
+        <div class="grid grid-cols-4 gap-4">
+            <a
+  *ngFor="let product of similarProducts"
+  [routerLink]="['/product', product._id]"
+  class="block shadow"
+>
+  <app-product-card [product]="product"></app-product-card>
+</a>
+
+        </div>
+    </div>
+    }
+    <!-- Avis des clients -->
+    <div class="mt-12">
+      <h2 class="text-2xl font-bold mb-4">Avis des clients</h2>
+      <div class="space-y-6">
+        <div class="border-t pt-4">
+          <p class="font-semibold">Jean Dupont</p>
+          <p class="text-yellow-500">★★★★★</p>
+          <p class="text-gray-600">Très bon produit, conforme à la description. Je recommande !</p>
+        </div>
+        <div class="border-t pt-4">
+          <p class="font-semibold">Marie Martin</p>
+          <p class="text-yellow-400">★★★★☆</p>
+          <p class="text-gray-600">Bon rapport qualité/prix. Livraison rapide.</p>
+        </div>
+      </div>
+    </div>
+</div>
