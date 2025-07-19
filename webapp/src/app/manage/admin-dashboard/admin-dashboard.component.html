@@ -1,14 +1,43 @@
-<div class="flex justify-around p-10">
-    <button mat-raised-button color="primary" [routerLink]="['/admin/categories']">
-        Manage Category
-    </button>
-    <button mat-raised-button color="primary" routerLink="/admin/products">
-        Manage Products
-    </button>
-    <button mat-raised-button border-color="primary" routerLink="/admin/brands">
-        Manage Brands
-    </button>
-    <button mat-raised-button border-color="primary" routerLink="/admin/orders">
-        Manage Orders
-    </button>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-10">
+
+  <button
+    mat-raised-button
+    color="primary"
+    [routerLink]="['/admin/categories']"
+    class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg shadow-md transition transform hover:scale-105"
+  >
+    <mat-icon>category</mat-icon>
+    <span>Gérer les Catégories</span>
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/admin/products"
+    class="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-lg shadow-md transition transform hover:scale-105"
+  >
+    <mat-icon>inventory_2</mat-icon>
+    <span>Gérer les Produits</span>
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/admin/brands"
+    class="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-4 rounded-lg shadow-md transition transform hover:scale-105"
+  >
+    <mat-icon>storefront</mat-icon>
+    <span>Gérer les Marques</span>
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/admin/orders"
+    class="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 rounded-lg shadow-md transition transform hover:scale-105"
+  >
+    <mat-icon>shopping_cart</mat-icon>
+    <span>Gérer les Commandes</span>
+  </button>
+
 </div>

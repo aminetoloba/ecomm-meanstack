@@ -1,60 +1,127 @@
-<header class="ecommerce-header">
-    <!-- Ligne 1 : Logo + Barre de recherche + Profil -->
-    <div class="top-bar">
-      <div class="logo cursor-pointer" routerLink="/">
-        <span>E-Shop</span>
-      </div>
-      @if(authService.isLoggedIn){
-      <input 
+<header class="bg-gray-900 text-white shadow-md">
+  <!-- Ligne 1 : Logo + Barre de recherche + Profil -->
+  <div class="flex items-center justify-between px-4 py-3">
+    
+    <!-- Logo -->
+    <div class="text-xl font-bold text-green-400 cursor-pointer" routerLink="/">
+      E-Shop
+    </div>
+
+    <!-- Barre de recherche (si connecté) -->
+    @if(authService.isLoggedIn){
+    <input 
       type="text" 
-      class="search-input" 
       placeholder="Rechercher des produits..."
       [(ngModel)]="searchTerm"
-      (keyup.enter)="onSearch($event)"> }
-      <div class="profile flex gap-2 items-center">
-      @if (authService.isAdmin) {
-      <a routerLink="/admin" class="profile-link cursor-pointer ml-2">{{authService.userName}}</a>
-      }
-      @if(authService.isLoggedIn){
-      @if(!authService.isAdmin){
-      <a routerLink="/profile" class="profile-link cursor-pointer ml-2">
-        <mat-icon>account_circle</mat-icon>
-      </a>
-      <a routerLink="/wishlists" class="profile-link cursor-pointer ml-2">
-        <mat-icon class="text-red-500">favorite</mat-icon>
-      </a>
-      <a routerLink="/cart" class="profile-link cursor-pointer ml-2">
-        <mat-icon class="text-white-500">shopping_cart</mat-icon>
-      </a>
-      <a routerLink="/orders" class="profile-link cursor-pointer ml-2">
-        <mat-icon>receipt_long</mat-icon>
-      </a>
-      }
-      <a href="/profil" class="profile-link cursor-pointer ml-2 hover:text-red-400 transition cursor-pointer flex items-center gap-4" (click)="logout()">
-        <mat-icon class="text-white-500">logout</mat-icon>
-        Logout
-      </a>
-      }@else{
-      <a class="profile-link cursor-pointer ml-2 hover:text-green-400 transition cursor-pointer flex items-center gap-4" (click)="login()">
-        <mat-icon class="text-white-500">login</mat-icon>
-        Login
-      </a>
-      <a class="profile-link cursor-pointer ml-2 hover:text-blue-400 transition cursor-pointer flex items-center gap-4" (click)="register()">
-        <mat-icon class="text-white-500">person_add</mat-icon>
-        Register
-      </a>
-      }
-      </div>
-    </div>
-    <!-- Ligne 2 : Menu des catégories -->
-    <nav class="category-menu cursor-pointer" *ngIf="authService.isLoggedIn">
-      <div *ngIf="categoryList.length === 0">Aucune catégorie trouvée.</div>
-      <ul>
-        <li *ngFor="let category of categoryList" (click)="searchCategory(category._id!)">
-          <a>{{ category.name }}</a>
-        </li>
-      </ul>
-    </nav>    
+      (keyup.enter)="onSearch($event)"
+      class="w-1/3 px-3 py-2 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-green-400"
+    >
+    }
 
+    <!-- Profil et actions -->
+    <div class="flex items-center gap-4">
+
+      @if (authService.isAdmin) {
+      <a routerLink="/admin" class="hover:text-green-400 transition">{{authService.userName}}</a>
+      }
+
+      @if(authService.isLoggedIn){
+        @if(!authService.isAdmin){
+        <a 
+          routerLink="/profile"
+          (click)="setActiveIcon('profile')"
+          [ngClass]="{
+            'text-green-400': activeIcon === 'profile',
+            'hover:text-green-400': activeIcon !== 'profile'
+          }"
+        >
+          <mat-icon>account_circle</mat-icon>
+        </a>
+        <a 
+          routerLink="/wishlists"
+          (click)="setActiveIcon('wishlist')"
+          [ngClass]="{
+            'text-red-500': activeIcon === 'wishlist',
+            'hover:text-red-500': activeIcon !== 'wishlist'
+          }"
+        >
+          <mat-icon>favorite</mat-icon>
+        </a>
+        <a 
+          routerLink="/cart"
+          (click)="setActiveIcon('cart')"
+          [ngClass]="{
+            'text-yellow-400': activeIcon === 'cart',
+            'hover:text-yellow-400': activeIcon !== 'cart'
+          }"
+        >
+          <mat-icon>shopping_cart</mat-icon>
+        </a>
+        <a 
+          routerLink="/orders"
+          (click)="setActiveIcon('orders')"
+          [ngClass]="{
+            'text-blue-400': activeIcon === 'orders',
+            'hover:text-blue-400': activeIcon !== 'orders'
+          }"
+        >
+          <mat-icon>receipt_long</mat-icon>
+        </a>
+        }
+
+        <a 
+          href="/profil" 
+          class="flex items-center gap-2 hover:text-red-400 transition"
+          (click)="logout()"
+        >
+          <mat-icon>logout</mat-icon>
+          Logout
+        </a>
+
+      } @else {
+
+        <a 
+          class="flex items-center gap-2 hover:text-green-400 transition"
+          (click)="login()"
+        >
+          <mat-icon>login</mat-icon>
+          Login
+        </a>
+
+        <a 
+          class="flex items-center gap-2 hover:text-blue-400 transition"
+          (click)="register()"
+        >
+          <mat-icon>person_add</mat-icon>
+          Register
+        </a>
+
+      }
+
+    </div>
+  </div>
+
+  <!-- Ligne 2 : Menu des catégories -->
+  <nav 
+    *ngIf="authService.isLoggedIn"
+    class="bg-gray-800 px-4 py-2 mt-1"
+  >
+    <div *ngIf="categoryList.length === 0" class="text-sm text-gray-400">
+      Aucune catégorie trouvée.
+    </div>
+    <div 
+  (document:click)="handleDocumentClick($event)"
+  (click)="handleInternalClick($event)"
+>
+  <ul class="flex flex-wrap gap-4">
+  <li 
+    *ngFor="let category of categoryList" 
+    (click)="searchCategory(category._id!)"
+    class="cursor-pointer hover:text-green-400 transition"
+  >
+    <a [class.text-green-400]="category._id === selectedCategoryId">{{ category.name }}</a>
+  </li>
+</ul>
+</div>
+  </nav>
 </header>
-  

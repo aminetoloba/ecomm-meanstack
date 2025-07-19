@@ -5,11 +5,12 @@ import { DatePipe } from '@angular/common';
 import { Product } from '../../../types/product';
 import { MatButtonModule } from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [DatePipe,MatButtonToggleModule],
+  imports: [DatePipe,MatButtonToggleModule,MatIconModule],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss'
 })

@@ -21,6 +21,8 @@ export class HeaderComponent implements OnInit{
   categoryList:Category[]=[];
   authService=inject(AuthService);
   searchTerm!:string;
+  activeIcon: string = '';
+  selectedCategoryId: string | null = null;
   ngOnInit(): void{
     console.log("Header ngOnInit lancé");
   this.categoryService.getCategories().subscribe(result => {
@@ -35,6 +37,7 @@ export class HeaderComponent implements OnInit{
     }
   }
   searchCategory(id:string){
+    this.selectedCategoryId = id;
     this.searchTerm="";
     this.router.navigateByUrl("/products?categoryId="+id!)
   }
@@ -48,5 +51,18 @@ export class HeaderComponent implements OnInit{
   register() {
     this.router.navigateByUrl('/register');
   }
-  
+  setActiveIcon(iconName: string): void {
+  this.activeIcon = iconName;
+}
+clickedInside = false;
+handleInternalClick(event: MouseEvent) {
+  this.clickedInside = true;
+}
+
+handleDocumentClick(event: MouseEvent) {
+  if (!this.clickedInside) {
+    this.selectedCategoryId = null;
+  }
+  this.clickedInside = false;
+}
 }

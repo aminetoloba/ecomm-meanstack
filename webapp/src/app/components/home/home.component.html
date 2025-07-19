@@ -1,35 +1,50 @@
-<div class="px-20">
+<div class="px-4 md:px-20 py-8 bg-gray-100 min-h-screen">
 
-    <div class="shadow-lg">
-        <owl-carousel-o [options]="customOptions">
-          <ng-container *ngFor="let item of bannerImages">
-            <ng-template carouselSlide>
-              <div class="relative flex flex-col items-center" [routerLink]="'product/'+item._id">
-                    <img [src]="item.images[0]" alt="Images" style="width: 50%; height: auto;">
-                    <span>{{ item.name }}</span>
-              </div>
-            </ng-template>
-          </ng-container>
-        </owl-carousel-o>
+  <!-- Carrousel -->
+  <div class="shadow-lg rounded-xl overflow-hidden mb-8 bg-white">
+    <owl-carousel-o [options]="customOptions">
+      <ng-container *ngFor="let item of bannerImages">
+        <ng-template carouselSlide>
+          <div
+            class="relative flex flex-col items-center py-4 bg-gray-800 hover:bg-gray-700 transition"
+            [routerLink]="'product/'+item._id"
+          >
+            <img
+              [src]="item.images[0]"
+              alt="Images"
+              class="w-1/2 h-auto rounded-md shadow-md mb-2"
+            >
+            <span class="text-white font-semibold">{{ item.name }}</span>
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+  </div>
+
+  <!-- Produits en vedette -->
+  <div class="m-4">
+    <h4 class="text-2xl font-bold text-gray-800 mb-4">Featured Products</h4>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        *ngFor="let product of featuredProducts"
+        class="bg-white rounded-lg shadow hover:shadow-xl transition"
+      >
+        <app-product-card [product]="product"></app-product-card>
+      </div>
     </div>
-      
+  </div>
 
-    <div class="m-4">
-        <h4 class="text-2xl font-bold">Featured Products</h4>
-        <div class="grid grid-cols-4 gap-4">
-            <div *ngFor="let product of featuredProducts" class="shadow">
-                <app-product-card [product]="product"></app-product-card>
-              </div>
-        </div>
+  <!-- Nouveaux produits -->
+  <div class="m-4 mt-8">
+    <h4 class="text-2xl font-bold text-gray-800 mb-4">New Products</h4>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        *ngFor="let product of featuredProducts"
+        class="bg-white rounded-lg shadow hover:shadow-xl transition"
+      >
+        <app-product-card [product]="product"></app-product-card>
+      </div>
     </div>
+  </div>
 
-
-    <div class="m-4">
-        <h4 class="text-2xl font-bold">New Products</h4>
-        <div class="grid grid-cols-4 gap-4">
-            <div *ngFor="let product of featuredProducts" class="shadow">
-                <app-product-card [product]="product"></app-product-card>
-            </div>
-        </div>
-    </div>
 </div>
